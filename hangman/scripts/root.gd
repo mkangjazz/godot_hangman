@@ -1,6 +1,8 @@
 extends Node2D
 
 #var current_scene;
+@onready var line_edit = %LineEdit
+
 var word_bank:Array = [
 	"apple",
 	"pear",
@@ -9,7 +11,6 @@ var word_bank:Array = [
 ];
 var current_word:String;
 var player_guesses:Array = [];
-
 
 func _ready():
 	set_up_new_game();
@@ -31,7 +32,7 @@ func get_random_word():
 
 	var	random_int = rng.randi_range(
 		0,
-		word_bank.size()
+		word_bank.size() - 1
 	);
 	
 	return word_bank[random_int];
@@ -39,7 +40,10 @@ func get_random_word():
 	pass;
 
 func submit_player_input():
-	print("clicky");
+	var text:String = line_edit.text;
+	player_guesses.append(text);
+	print("player_guesses: ", player_guesses);
+
 	# when button is clicked
 	# commit the value in the text input as a "guess"
 	pass
