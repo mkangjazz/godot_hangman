@@ -5,43 +5,57 @@
 [ext_resource type="Texture2D" uid="uid://ym6wijdftj3s" path="res://assets/stage.png" id="3_rdbgv"]
 
 [node name="Node2D" type="Node2D"]
-position = Vector2(1, 0)
 script = ExtResource("1_xbogm")
 
-[node name="SplitContainer" type="HBoxContainer" parent="."]
-offset_right = 1145.0
-offset_bottom = 649.0
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+unique_name_in_owner = true
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="SplitContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer"]
 layout_mode = 2
+metadata/_edit_use_anchors_ = true
 
-[node name="Sprite2D_logo" type="Sprite2D" parent="SplitContainer/PanelContainer"]
-position = Vector2(240, 78)
-scale = Vector2(1.47602, 0.892508)
-texture = ExtResource("2_pdqqn")
-
-[node name="Sprite2D_stage" type="Sprite2D" parent="SplitContainer/PanelContainer"]
-position = Vector2(238, 378)
-scale = Vector2(2.25047, 1.95802)
-texture = ExtResource("3_rdbgv")
-
-[node name="VFlowContainer" type="VFlowContainer" parent="SplitContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Keyboard" type="GridContainer" parent="SplitContainer/VFlowContainer"]
+[node name="Logo" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("2_pdqqn")
+stretch_mode = 5
+
+[node name="Stage" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+texture = ExtResource("3_rdbgv")
+stretch_mode = 5
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BlankSpaces" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
-columns = 9
+size_flags_vertical = 3
 
-[node name="BlankSpaces" type="HFlowContainer" parent="SplitContainer/VFlowContainer"]
+[node name="Incorrect" type="HFlowContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Keyboard" type="GridContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
-layout_direction = 2
 layout_mode = 2
-size_flags_vertical = 4
-size_flags_stretch_ratio = 0.0
-
-[node name="Incorrect" type="HFlowContainer" parent="SplitContainer/VFlowContainer"]
-layout_mode = 2
+size_flags_vertical = 3
+columns = 11

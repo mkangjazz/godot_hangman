@@ -50,12 +50,19 @@ func set_up_current_word():
 	var random_word:String = get_random_word();
 	
 	current_word = random_word;
-	
-	for char in random_word:
-		var space = blank_space_scene.instantiate()
 
+	for char in random_word:
+		var control = Button.new()
+		var space = blank_space_scene.instantiate()
+		
 		space.setCharacter(char);
-		blank_spaces_container.add_child(space)
+		#control.add_child(space);
+		
+		control.text = "B";
+		#blank_spaces_container.add_child(space)
+		blank_spaces_container.add_child(control)
+		print("char: ", char);
+		
 	pass
 
 func handle_keyboard_keypress(key:String):
