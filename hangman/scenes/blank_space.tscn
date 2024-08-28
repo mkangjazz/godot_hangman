@@ -3,24 +3,27 @@
 [ext_resource type="Script" path="res://scripts/blank_space.gd" id="1_hc242"]
 [ext_resource type="Texture2D" uid="uid://x70ny0rul0tw" path="res://assets/blank_space.png" id="2_45l16"]
 
-[node name="BlankSpace" type="Node2D"]
-script = ExtResource("1_hc242")
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 32.0
-offset_bottom = 32.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="TextureRect" type="TextureRect" parent="Control"]
-layout_mode = 1
+[node name="BlankSpace" type="TextureRect"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_45l16")
-expand_mode = 3
-stretch_mode = 5
+script = ExtResource("1_hc242")
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -164.0
+offset_bottom = 164.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1

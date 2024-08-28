@@ -7,6 +7,15 @@
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_xbogm")
 
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer2"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
@@ -24,38 +33,59 @@ size_flags_vertical = 3
 layout_mode = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Logo" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Logo" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("2_pdqqn")
 stretch_mode = 5
 
-[node name="Stage" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Stage" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
 texture = ExtResource("3_rdbgv")
 stretch_mode = 5
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="BlankSpaces" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2"]
+[node name="BlankSpaces" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
 unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="Incorrect" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Incorrect" type="HFlowContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2"]
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Keyboard" type="GridContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer2"]
+[node name="Keyboard" type="GridContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer2/CenterContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-columns = 11
+columns = 10

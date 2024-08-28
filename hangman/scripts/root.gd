@@ -19,7 +19,8 @@ var word_bank:Array = [
 	"stack",
 ];
 
-var allowed_string:String = "abcdefghijklmnopqrstuvwxyz";
+#var allowed_string:String = "abcdefghijklmnopqrstuvwxyz";
+var allowed_string:String = "qwertyuiopasdfghjklzxcvbnm"; # break into rows?
 var allowed_chars:Array = [];
 
 func _ready():
@@ -52,17 +53,11 @@ func set_up_current_word():
 	current_word = random_word;
 
 	for char in random_word:
-		var control = Button.new()
 		var space = blank_space_scene.instantiate()
-		
+		blank_spaces_container.add_child(space)
+
 		space.setCharacter(char);
-		#control.add_child(space);
-		
-		control.text = "B";
-		#blank_spaces_container.add_child(space)
-		blank_spaces_container.add_child(control)
-		print("char: ", char);
-		
+		space.showAnswer();
 	pass
 
 func handle_keyboard_keypress(key:String):
@@ -81,6 +76,7 @@ func set_up_player_keyboard():
 		var button = Button.new();
 		button.text = key.to_upper();
 		button.toggle_mode = true;
+		button.grow_horizontal = true
 		button.connect("pressed", handle_keyboard_keypress.bind(key))
 		keyboard_keys_container.add_child(button)
 		keyboard_keys[key] = button;

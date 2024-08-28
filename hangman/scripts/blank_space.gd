@@ -1,22 +1,29 @@
-extends Node2D
+extends TextureRect
 
-var isHidden:bool = true;
-var character:String = "";
+@onready var label = %Label
+
+var revealAnswer:bool = false;
+var character:String = "Z";
 
 func _ready():
 	pass
 
 func _process(delta):
+	if revealAnswer:
+		label.show()
+	else:
+		label.hide()
 	pass
 
-func hideCharacter():
-	self.isHidden = true;
+func hideAnswer():
+	self.revealAnswer = false;
 	pass
 
-func showCharacter():
-	self.isHidden = false;
+func showAnswer():
+	self.revealAnswer = true;
 	pass
 
 func setCharacter(char:String):
 	self.character = char;
+	label.text = character;
 	pass
