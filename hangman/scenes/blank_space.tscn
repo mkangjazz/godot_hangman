@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdf1vh4h1wls2"]
+
+[ext_resource type="Script" path="res://scripts/blank_space.gd" id="1_hc242"]
+[ext_resource type="Texture2D" uid="uid://x70ny0rul0tw" path="res://assets/blank_space.png" id="2_45l16"]
+
+[node name="BlankSpace" type="Node2D"]
+script = ExtResource("1_hc242")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_45l16")

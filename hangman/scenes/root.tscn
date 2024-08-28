@@ -1,36 +1,47 @@
-[gd_scene load_steps=2 format=3 uid="uid://dj52xu2lclmk5"]
+[gd_scene load_steps=4 format=3 uid="uid://dj52xu2lclmk5"]
 
 [ext_resource type="Script" path="res://scripts/root.gd" id="1_xbogm"]
+[ext_resource type="Texture2D" uid="uid://bct8yso7n0xwq" path="res://assets/logo.png" id="2_pdqqn"]
+[ext_resource type="Texture2D" uid="uid://ym6wijdftj3s" path="res://assets/stage.png" id="3_rdbgv"]
 
 [node name="Node2D" type="Node2D"]
+position = Vector2(1, 0)
 script = ExtResource("1_xbogm")
 
-[node name="Control_UI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="SplitContainer" type="HBoxContainer" parent="."]
+offset_right = 1145.0
+offset_bottom = 649.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="LineEdit" type="LineEdit" parent="Control_UI"]
+[node name="PanelContainer" type="PanelContainer" parent="SplitContainer"]
+layout_mode = 2
+
+[node name="Sprite2D_logo" type="Sprite2D" parent="SplitContainer/PanelContainer"]
+position = Vector2(240, 78)
+scale = Vector2(1.47602, 0.892508)
+texture = ExtResource("2_pdqqn")
+
+[node name="Sprite2D_stage" type="Sprite2D" parent="SplitContainer/PanelContainer"]
+position = Vector2(238, 378)
+scale = Vector2(2.25047, 1.95802)
+texture = ExtResource("3_rdbgv")
+
+[node name="VFlowContainer" type="VFlowContainer" parent="SplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Keyboard" type="GridContainer" parent="SplitContainer/VFlowContainer"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 8.0
-offset_top = 32.0
-offset_right = 205.0
-offset_bottom = 63.0
+layout_mode = 2
+columns = 9
 
-[node name="Label" type="Label" parent="Control_UI"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Enter your guess"
+[node name="BlankSpaces" type="HFlowContainer" parent="SplitContainer/VFlowContainer"]
+unique_name_in_owner = true
+layout_direction = 2
+layout_mode = 2
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
 
-[node name="Button" type="Button" parent="Control_UI"]
-layout_mode = 0
-offset_left = 220.0
-offset_top = 30.0
-offset_right = 283.0
-offset_bottom = 61.0
-text = "Submit"
-
-[connection signal="pressed" from="Control_UI/Button" to="." method="_on_button_pressed"]
+[node name="Incorrect" type="HFlowContainer" parent="SplitContainer/VFlowContainer"]
+layout_mode = 2
