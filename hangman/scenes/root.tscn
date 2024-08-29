@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/root.gd" id="1_xbogm"]
 [ext_resource type="Texture2D" uid="uid://bct8yso7n0xwq" path="res://assets/logo.png" id="2_pdqqn"]
-[ext_resource type="Texture2D" uid="uid://ym6wijdftj3s" path="res://assets/stage.png" id="3_rdbgv"]
+[ext_resource type="PackedScene" uid="uid://8gy8qllwj7bn" path="res://scenes/hangman-stage.tscn" id="3_lcm3t"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_xbogm")
@@ -49,16 +49,19 @@ size_flags_horizontal = 3
 
 [node name="Logo" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 3
 texture = ExtResource("2_pdqqn")
 stretch_mode = 5
 
-[node name="Stage" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 3.0
-texture = ExtResource("3_rdbgv")
-stretch_mode = 5
+
+[node name="Hangman-stage" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/MarginContainer" instance=ExtResource("3_lcm3t")]
+unique_name_in_owner = true
+position = Vector2(0, -5)
+scale = Vector2(0.705, 0.705)
+animation = &"5"
+centered = false
 
 [node name="IncorrectGuesses" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true

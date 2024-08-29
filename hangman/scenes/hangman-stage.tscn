@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://8gy8qllwj7bn"]
+
+[ext_resource type="Texture2D" uid="uid://5wh700i5alqy" path="res://assets/01-stage.png" id="1_dtxre"]
+[ext_resource type="Texture2D" uid="uid://q8oxk8j8oc3e" path="res://assets/00-stage.png" id="1_xjjwv"]
+[ext_resource type="Texture2D" uid="uid://bu2yqaq0uxksj" path="res://assets/02-stage.png" id="2_iftqh"]
+[ext_resource type="Texture2D" uid="uid://dwm15k5qvkgrb" path="res://assets/03-stage.png" id="3_yoenq"]
+[ext_resource type="Texture2D" uid="uid://bcbq38dcsx8qy" path="res://assets/04-stage.png" id="4_i6xoi"]
+[ext_resource type="Texture2D" uid="uid://c6x4aqi43q81c" path="res://assets/05-stage.png" id="5_422ax"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1oi4k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_xjjwv")
+}],
+"loop": true,
+"name": &"0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_dtxre")
+}],
+"loop": true,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_iftqh")
+}],
+"loop": true,
+"name": &"2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_yoenq")
+}],
+"loop": true,
+"name": &"3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_i6xoi")
+}],
+"loop": true,
+"name": &"4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_422ax")
+}],
+"loop": true,
+"name": &"5",
+"speed": 5.0
+}]
+
+[node name="Hangman-stage" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_1oi4k")
+animation = &"0"

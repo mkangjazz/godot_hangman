@@ -7,6 +7,7 @@ const win_scene:Resource = preload("res://scenes/win.tscn");
 const lose_scene:Resource = preload("res://scenes/lose.tscn");
 const allowed_strikes:int = 5;
 
+@onready var hangman_stage = %"Hangman-stage"
 @onready var keyboard_keys_container = %Keyboard
 @onready var blank_spaces_container = %BlankSpaces
 @onready var incorrect_guesses_container = %IncorrectGuesses
@@ -102,11 +103,16 @@ func set_up_player_keyboard():
 		keyboard_keys[key] = button;
 	pass
 
+func sync_stage_anim_to_incorrect_guesses():
+	var anim:String = str(incorrect_guesses.size())
+
+	hangman_stage.play(anim);
+
 func set_up_new_game():
 	current_word = "";
-	incorrect_guesses = [];
-	keyboard_keys = {};
-	blank_spaces = [];
+	incorrect_guesses.clear();
+	keyboard_keys.clear();
+	blank_spaces.clear();
 	accept_keyboard_input = false;
 	
 	remove_all_blank_spaces();
@@ -116,6 +122,8 @@ func set_up_new_game():
 	set_up_current_word();
 	set_up_blank_spaces();
 	set_up_player_keyboard();
+
+	sync_stage_anim_to_incorrect_guesses();
 	show_keyboard();
 
 	print("current_word: ", current_word)
@@ -146,6 +154,8 @@ func handle_player_input_submission(key:String):
 		label.text = lower_key.to_upper();
 		incorrect_guesses_container.add_child(label)
 		incorrect_guesses.append(lower_key);
+		
+		sync_stage_anim_to_incorrect_guesses();
 	else:
 		var i = 0;
 		for letter in current_word:

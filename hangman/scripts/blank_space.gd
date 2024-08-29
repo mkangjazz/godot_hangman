@@ -8,7 +8,7 @@ var character:String = "Z";
 func _ready():
 	pass
 
-func _process(delta):
+func _process(_delta):
 	if revealAnswer:
 		label.show()
 	else:
@@ -23,7 +23,7 @@ func showAnswer():
 	self.revealAnswer = true;
 	pass
 
-func setCharacter(char:String):
-	self.character = char;
+func setCharacter(letter:String):
+	self.character = letter;
 	label.text = character;
 	pass
