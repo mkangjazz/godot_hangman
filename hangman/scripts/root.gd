@@ -1,11 +1,16 @@
 extends Node2D
 
+signal restart_button_pressed;
+
 const blank_space_scene:Resource = preload("res://scenes/blank_space.tscn");
+const win_scene:Resource = preload("res://scenes/win.tscn");
+const lose_scene:Resource = preload("res://scenes/lose.tscn");
 const allowed_strikes:int = 5;
 
 @onready var keyboard_keys_container = %Keyboard
 @onready var blank_spaces_container = %BlankSpaces
 @onready var incorrect_guesses_container = %IncorrectGuesses
+@onready var player_actions_container = %CenterContainer
 
 # need to switch between index num and char, due to unique values
 var current_word:String = "";
@@ -20,47 +25,48 @@ var word_bank:Array = [
 	"grimace",
 	"stack",
 ];
-
 var allowed_string:String = "qwertyuiopasdfghjklzxcvbnm"; # break into rows? chunk into diff sizes?
 var allowed_chars:Array = [];
+var accept_keyboard_input:bool = false;
 
 func _ready():
+	set_up_allowed_chars();
 	set_up_new_game();
-	print("current_word: ", current_word)
-	print("allowed_chars: ", allowed_chars)
-	print("blank spaces container children: ", blank_spaces_container.get_children())
-
 	pass
 
 func _input(event):
 	if event is InputEventKey and event.pressed:
 		var keycode_string:String = OS.get_keycode_string(event.keycode);
 		var key:String = keycode_string.to_lower();
-		
-		if not keyboard_keys.has(key):
-			return;
-		else:
-			if keyboard_keys[key].disabled:
-				return;
-			keyboard_keys[key].pressed.emit();
+
+		# only accept VERY specific keycodes for our pseudo keyboard
+		if keyboard_keys:
+			if keyboard_keys.has(key):
+				if accept_keyboard_input:
+					if not keyboard_keys[key].disabled:
+						keyboard_keys[key].pressed.emit();
 	pass
 	
-func _process(delta):
+func _process(_delta):
 	pass
 
-#func add_incorrect_guess():
-	
+func remove_all_blank_spaces():
+	for n in blank_spaces_container.get_children():
+		n.queue_free()
+	pass
 
 func set_up_current_word():
 	var random_word:String = get_random_word();
 	
 	current_word = random_word;
+	pass;
 
-	for char in random_word:
+func set_up_blank_spaces():
+	for letter in current_word:
 		var space = blank_space_scene.instantiate()
 		blank_spaces_container.add_child(space)
 
-		space.setCharacter(char);
+		space.setCharacter(letter);
 		blank_spaces.append(space);
 	pass
 
@@ -70,11 +76,21 @@ func handle_keyboard_keypress(key:String):
 	pass
 
 func set_up_allowed_chars():
-	for char in allowed_string:
-		if !allowed_chars.has(char):
-			allowed_chars.append(char)
+	for letter in allowed_string:
+		if !allowed_chars.has(letter):
+			allowed_chars.append(letter)
 	pass
 
+func remove_all_keyboard_keys():
+	for n in keyboard_keys_container.get_children():
+		n.queue_free()
+	pass
+	
+func remove_all_incorrect_guesses():
+	for n in incorrect_guesses_container.get_children():
+		n.queue_free()
+	pass
+		
 func set_up_player_keyboard():
 	for key in allowed_chars:
 		var button = Button.new();
@@ -87,11 +103,23 @@ func set_up_player_keyboard():
 	pass
 
 func set_up_new_game():
-	set_up_allowed_chars();
-	set_up_player_keyboard();
-	set_up_current_word();
-
+	current_word = "";
 	incorrect_guesses = [];
+	keyboard_keys = {};
+	blank_spaces = [];
+	accept_keyboard_input = false;
+	
+	remove_all_blank_spaces();
+	remove_all_keyboard_keys();
+	remove_all_incorrect_guesses();
+
+	set_up_current_word();
+	set_up_blank_spaces();
+	set_up_player_keyboard();
+	show_keyboard();
+
+	print("current_word: ", current_word)
+
 	pass
 
 func get_random_word():
@@ -104,8 +132,6 @@ func get_random_word():
 	);
 	
 	return word_bank[random_int];
-
-	pass;
 
 func handle_player_input_submission(key:String):
 	var lower_key:String = key.to_lower();
@@ -122,11 +148,11 @@ func handle_player_input_submission(key:String):
 		incorrect_guesses.append(lower_key);
 	else:
 		var i = 0;
-		for char in current_word:
-			if (char == lower_key):
+		for letter in current_word:
+			if (letter == lower_key):
 				found_indexes.append(i);
 			i += 1;
-	
+
 	for index in found_indexes:
 		blank_spaces[index].showAnswer();
 		pass
@@ -135,18 +161,38 @@ func handle_player_input_submission(key:String):
 
 	pass
 
+func show_keyboard():
+	keyboard_keys_container.show()
+	accept_keyboard_input = true;
+
+func hide_keyboard():
+	keyboard_keys_container.hide()
+	accept_keyboard_input = false;
+
+func _on_play_again():
+	print("PLAY AGAIN YAY");
+	set_up_new_game();
+	pass 
+
 func show_win():
 	print("YOU WIN")
-	get_tree().paused = true # or disable inputs and do other things?
+	var win = win_scene.instantiate();
+
+	player_actions_container.add_child(win);
+	win.play_again.connect(_on_play_again)
 	pass
 
 func show_lose():
 	print("YOU LOSE")
-	get_tree().paused = true # or disable inputs and do other things?
+	var lose = lose_scene.instantiate();
+	player_actions_container.add_child(lose);
+	
+	lose.play_again.connect(_on_play_again)
 	pass
 
 func check_win_lose_conditions():
 	if incorrect_guesses.size() >= allowed_strikes:
+		hide_keyboard();
 		show_lose();
 	else:
 		var all_spaces_revealed = true;
@@ -158,5 +204,6 @@ func check_win_lose_conditions():
 			pass
 
 		if all_spaces_revealed:
-			show_win()
+			hide_keyboard();
+			show_win();
 	pass

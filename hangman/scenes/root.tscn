@@ -84,6 +84,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
