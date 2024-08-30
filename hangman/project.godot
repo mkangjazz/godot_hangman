@@ -13,3 +13,12 @@ config_version=5
 config/name="hangman"
 run/main_scene="res://scenes/root.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
+
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/mode=3
+window/size/resizable=false
+window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"

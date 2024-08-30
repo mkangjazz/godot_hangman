@@ -1,98 +1,76 @@
-[gd_scene load_steps=4 format=3 uid="uid://dj52xu2lclmk5"]
+[gd_scene load_steps=5 format=3 uid="uid://dj52xu2lclmk5"]
 
 [ext_resource type="Script" path="res://scripts/root.gd" id="1_xbogm"]
-[ext_resource type="Texture2D" uid="uid://bct8yso7n0xwq" path="res://assets/logo.png" id="2_pdqqn"]
+[ext_resource type="Texture2D" uid="uid://ctihhg5ud3021" path="res://assets/logotype.png" id="2_4dj1q"]
 [ext_resource type="PackedScene" uid="uid://8gy8qllwj7bn" path="res://scenes/hangman-stage.tscn" id="3_lcm3t"]
+[ext_resource type="Texture2D" uid="uid://bhskf22uyefkj" path="res://assets/prison-view.png" id="4_guxt6"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_xbogm")
-
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer2"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.389287, 0.389287, 0.389287, 1)
+metadata/_edit_vertical_guides_ = [320.0, 480.0, 160.0]
+metadata/_edit_horizontal_guides_ = [65.0]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
-unique_name_in_owner = true
-clip_contents = true
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer"]
-layout_mode = 2
-metadata/_edit_use_anchors_ = true
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
-clip_contents = true
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 40
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 40
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Logo" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-texture = ExtResource("2_pdqqn")
-stretch_mode = 5
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Hangman-stage" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/MarginContainer" instance=ExtResource("3_lcm3t")]
+[node name="Hangman-stage" parent="CanvasLayer" instance=ExtResource("3_lcm3t")]
 unique_name_in_owner = true
-position = Vector2(0, -5)
+position = Vector2(-2, -55)
 scale = Vector2(0.705, 0.705)
 animation = &"5"
 centered = false
 
-[node name="IncorrectGuesses" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="Logo" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(57, 50)
+texture = ExtResource("2_4dj1q")
+centered = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.374
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="PrisonView" type="Sprite2D" parent="CanvasLayer/VBoxContainer"]
+position = Vector2(160, -70)
+texture = ExtResource("4_guxt6")
+
+[node name="CenterContainer2" type="CenterContainer" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+
+[node name="BlankSpaces" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/CenterContainer2"]
 unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="CenterContainer3" type="CenterContainer" parent="CanvasLayer/VBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+
+[node name="IncorrectGuesses" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/CenterContainer3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 140
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 140
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="BlankSpaces" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-alignment = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Keyboard" type="GridContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer2/CenterContainer"]
+[node name="Keyboard" type="GridContainer" parent="CanvasLayer/VBoxContainer/CenterContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 columns = 10
+
+[node name="Camera2D" type="Camera2D" parent="CanvasLayer"]
+anchor_mode = 0
