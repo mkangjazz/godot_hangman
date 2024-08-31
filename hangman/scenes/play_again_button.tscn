@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1ua8a76bp4ia"]
+
+[ext_resource type="Script" path="res://scripts/play_again_button.gd" id="1_44ikn"]
+[ext_resource type="Theme" uid="uid://do35d88r7qdek" path="res://resources/play_again_button_theme.tres" id="1_jcgxg"]
+
+[node name="PlayAgainButton" type="Button"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -15.5
+offset_right = 50.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("1_jcgxg")
+text = "PLAY AGAIN"
+script = ExtResource("1_44ikn")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

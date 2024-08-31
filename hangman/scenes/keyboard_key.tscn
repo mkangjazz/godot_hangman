@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://drywmhtjlriyh"]
+
+[ext_resource type="Texture2D" uid="uid://bpovrlmjaum7a" path="res://assets/key-default.png" id="1_5gmvk"]
+[ext_resource type="Texture2D" uid="uid://bdj6meel65hvb" path="res://assets/key-focus.png" id="2_0si47"]
+[ext_resource type="Script" path="res://scripts/keyboard_key.gd" id="2_8ylae"]
+[ext_resource type="FontFile" uid="uid://byiisreyleu7q" path="res://assets/salmon-typewriter-regular.ttf" id="3_22a3h"]
+[ext_resource type="Texture2D" uid="uid://cuqfg0xthfwt3" path="res://assets/key-disabled.png" id="3_w7h25"]
+
+[node name="KeyboardKey" type="TextureButton"]
+texture_filter = 1
+offset_right = 20.0
+offset_bottom = 20.0
+texture_normal = ExtResource("1_5gmvk")
+texture_pressed = ExtResource("3_w7h25")
+texture_disabled = ExtResource("3_w7h25")
+texture_focused = ExtResource("2_0si47")
+script = ExtResource("2_8ylae")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_22a3h")
+theme_override_font_sizes/font_size = 12
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 1
+uppercase = true
+
+[connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
+[connection signal="pressed" from="." to="." method="_on_pressed"]

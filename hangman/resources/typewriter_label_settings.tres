@@ -1,0 +1,6 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://jdfl32eolk8n"]
+
+[ext_resource type="FontFile" uid="uid://byiisreyleu7q" path="res://assets/salmon-typewriter-regular.ttf" id="1_k8rdi"]
+
+[resource]
+font = ExtResource("1_k8rdi")

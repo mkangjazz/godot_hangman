@@ -1,0 +1,9 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://do35d88r7qdek"]
+
+[ext_resource type="FontFile" uid="uid://byiisreyleu7q" path="res://assets/salmon-typewriter-regular.ttf" id="1_1a0cj"]
+[ext_resource type="StyleBox" uid="uid://duw7yg5c7q1jn" path="res://resources/button_9patchRect.tres" id="1_i3dd8"]
+
+[resource]
+default_font = ExtResource("1_1a0cj")
+default_font_size = 20
+Button/styles/normal = ExtResource("1_i3dd8")

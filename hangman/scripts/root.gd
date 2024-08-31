@@ -2,23 +2,12 @@ extends Node2D
 
 signal restart_button_pressed;
 
+const keyboard_key_scene:Resource = preload("res://scenes/keyboard_key.tscn");
 const blank_space_scene:Resource = preload("res://scenes/blank_space.tscn");
-const win_scene:Resource = preload("res://scenes/win.tscn");
-const lose_scene:Resource = preload("res://scenes/lose.tscn");
+const play_again_button: Resource = preload("res://scenes/play_again_button.tscn");
+const typewriter_font:Font = preload("res://assets/salmon-typewriter-regular.ttf")
 const allowed_strikes:int = 5;
-
-@onready var hangman_stage = %"Hangman-stage"
-@onready var keyboard_keys_container = %Keyboard
-@onready var blank_spaces_container = %BlankSpaces
-@onready var incorrect_guesses_container = %IncorrectGuesses
-@onready var player_actions_container = %CenterContainer
-
-# need to switch between index num and char, due to unique values
-var current_word:String = "";
-var incorrect_guesses:Array = [];
-var keyboard_keys:Dictionary = {};
-var blank_spaces:Array = [];
-var word_bank:Array = [
+const word_bank:Array = [
 	"apple",
 	"pear",
 	"news",
@@ -26,7 +15,23 @@ var word_bank:Array = [
 	"grimace",
 	"stack",
 ];
-var allowed_string:String = "qwertyuiopasdfghjklzxcvbnm"; # break into rows? chunk into diff sizes?
+const row_qwer:String = "qwertyuiop"; 
+const row_asdf:String = "asdfghjkl";
+const row_zxcv:String = "zxcvbnm";
+
+@onready var hangman_stage = %"Hangman-stage"
+@onready var keyboard_keys_container = %Keyboard
+@onready var blank_spaces_container = %BlankSpaces
+@onready var incorrect_guesses_container = %IncorrectGuesses
+@onready var player_actions_container = %CenterContainer
+@onready var quote_panel = %Panel
+
+var current_word:String = "";
+var incorrect_guesses:Array = [];
+var keyboard_keys:Dictionary = {};
+var blank_spaces:Array = [];
+
+var allowed_string:String = row_qwer + row_asdf + row_zxcv;
 var allowed_chars:Array = [];
 var accept_keyboard_input:bool = false;
 
@@ -91,20 +96,46 @@ func remove_all_incorrect_guesses():
 	for n in incorrect_guesses_container.get_children():
 		n.queue_free()
 	pass
-		
-func set_up_player_keyboard():
-	for key in allowed_chars:
-		var button = Button.new();
-		button.text = key.to_upper();
+	
+func setup_keyboard_row(letters:String):
+	var row = HBoxContainer.new();
+
+	keyboard_keys_container.add_child(row)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+
+	for key in letters:
+		var button:TextureButton = keyboard_key_scene.instantiate();
+		row.add_child(button)
+
 		button.toggle_mode = true;
-		button.grow_horizontal = true
 		button.connect("pressed", handle_keyboard_keypress.bind(key))
-		keyboard_keys_container.add_child(button)
+		button.setKeyLabelText(key);
+
 		keyboard_keys[key] = button;
+	return row;
+
+func set_up_player_keyboard():
+	setup_keyboard_row(row_qwer);
+	setup_keyboard_row(row_asdf);
+	setup_keyboard_row(row_zxcv);
+
+	pass
+
+func show_quote():
+	quote_panel.show();
+	pass
+
+func hide_quote():
+	quote_panel.hide();
 	pass
 
 func sync_stage_anim_to_incorrect_guesses():
 	var anim:String = str(incorrect_guesses.size())
+
+	if incorrect_guesses.size() > 0:
+		hide_quote();
+	else:
+		show_quote();
 
 	hangman_stage.play(anim);
 
@@ -151,6 +182,8 @@ func handle_player_input_submission(key:String):
 	if current_word.find(lower_key) == -1:
 		var label = Label.new();
 
+		label.add_theme_font_override("font", typewriter_font);
+
 		label.text = lower_key.to_upper();
 		incorrect_guesses_container.add_child(label)
 		incorrect_guesses.append(lower_key);
@@ -175,6 +208,10 @@ func show_keyboard():
 	keyboard_keys_container.show()
 	accept_keyboard_input = true;
 
+	# focus the first key on the keyboard
+	var first_key = keyboard_keys.keys()[0]
+	keyboard_keys[first_key].grab_focus()
+
 func hide_keyboard():
 	keyboard_keys_container.hide()
 	accept_keyboard_input = false;
@@ -184,20 +221,21 @@ func _on_play_again():
 	set_up_new_game();
 	pass 
 
+func setup_play_again_button():
+	var btn = play_again_button.instantiate();
+	
+	player_actions_container.add_child(btn);
+	btn.pressed.connect(_on_play_again)
+	pass
+
 func show_win():
 	print("YOU WIN")
-	var win = win_scene.instantiate();
-
-	player_actions_container.add_child(win);
-	win.play_again.connect(_on_play_again)
+	setup_play_again_button();
 	pass
 
 func show_lose():
 	print("YOU LOSE")
-	var lose = lose_scene.instantiate();
-	player_actions_container.add_child(lose);
-	
-	lose.play_again.connect(_on_play_again)
+	setup_play_again_button();
 	pass
 
 func check_win_lose_conditions():
