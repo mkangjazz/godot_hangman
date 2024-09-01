@@ -2,7 +2,7 @@ extends Node2D
 
 signal restart_button_pressed;
 
-const intro_text:String = "Guess the word in my head, and I'll ask the judge to push yer date back. You might even finish yer autobiography, HEH";
+const intro_text:String = "Guess the word in my head, 'n I'll ask the judge to push yer date back. You might even finish yer autobiography, HEH";
 const win_text:String = "Well, ain't you clever! Looks like you live to write another day.";
 const keyboard_key_scene:Resource = preload("res://scenes/keyboard_key.tscn");
 const blank_space_scene:Resource = preload("res://scenes/blank_space.tscn");
