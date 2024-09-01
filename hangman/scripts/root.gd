@@ -2,6 +2,8 @@ extends Node2D
 
 signal restart_button_pressed;
 
+const intro_text:String = "Gimme one good reason not ter hang you fer runnin' that op-ed!";
+const win_text:String = "Welp. Yer free to go...";
 const keyboard_key_scene:Resource = preload("res://scenes/keyboard_key.tscn");
 const blank_space_scene:Resource = preload("res://scenes/blank_space.tscn");
 const play_again_button: Resource = preload("res://scenes/play_again_button.tscn");
@@ -19,6 +21,7 @@ const row_qwer:String = "qwertyuiop";
 const row_asdf:String = "asdfghjkl";
 const row_zxcv:String = "zxcvbnm";
 
+@onready var quote = %Quote
 @onready var hangman_stage = %"Hangman-stage"
 @onready var keyboard_keys_container = %Keyboard
 @onready var blank_spaces_container = %BlankSpaces
@@ -30,10 +33,10 @@ var current_word:String = "";
 var incorrect_guesses:Array = [];
 var keyboard_keys:Dictionary = {};
 var blank_spaces:Array = [];
-
 var allowed_string:String = row_qwer + row_asdf + row_zxcv;
 var allowed_chars:Array = [];
 var accept_keyboard_input:bool = false;
+var is_player_win:bool = false;
 
 func _ready():
 	set_up_allowed_chars();
@@ -54,6 +57,7 @@ func _input(event):
 	pass
 	
 func _process(_delta):
+	sync_stage_anim_to_incorrect_guesses();
 	pass
 
 func remove_all_blank_spaces():
@@ -121,6 +125,10 @@ func set_up_player_keyboard():
 
 	pass
 
+func setQuoteText(newText:String):
+	quote.text = newText;
+	pass;
+
 func show_quote():
 	quote_panel.show();
 	pass
@@ -130,17 +138,29 @@ func hide_quote():
 	pass
 
 func sync_stage_anim_to_incorrect_guesses():
-	var anim:String = str(incorrect_guesses.size())
+	var animation_frame:int = incorrect_guesses.size();
+	var clamped_frames = clamp(animation_frame, 1,5);
 
-	if incorrect_guesses.size() > 0:
-		hide_quote();
-	else:
+	hangman_stage.play(str(clamped_frames));
+
+	if is_player_win:
+		setQuoteText(win_text);
 		show_quote();
+		hangman_stage.hide()
+	else:
+		if incorrect_guesses.size() > 0:
+			hangman_stage.show()
+			hide_quote();
+		else:
+			hangman_stage.hide();
+			setQuoteText(intro_text);
+			show_quote();
 
-	hangman_stage.play(anim);
+	pass;
 
 func set_up_new_game():
 	current_word = "";
+	is_player_win = false;
 	incorrect_guesses.clear();
 	keyboard_keys.clear();
 	blank_spaces.clear();
@@ -154,7 +174,7 @@ func set_up_new_game():
 	set_up_blank_spaces();
 	set_up_player_keyboard();
 
-	sync_stage_anim_to_incorrect_guesses();
+	#sync_stage_anim_to_incorrect_guesses();
 	show_keyboard();
 
 	print("current_word: ", current_word)
@@ -188,7 +208,7 @@ func handle_player_input_submission(key:String):
 		incorrect_guesses_container.add_child(label)
 		incorrect_guesses.append(lower_key);
 		
-		sync_stage_anim_to_incorrect_guesses();
+		#sync_stage_anim_to_incorrect_guesses();
 	else:
 		var i = 0;
 		for letter in current_word:
@@ -208,9 +228,9 @@ func show_keyboard():
 	keyboard_keys_container.show()
 	accept_keyboard_input = true;
 
-	# focus the first key on the keyboard
-	var first_key = keyboard_keys.keys()[0]
-	keyboard_keys[first_key].grab_focus()
+	# focus the H key on the keyboard
+	#var first_key = keyboard_keys.keys()[0]
+	keyboard_keys["h"].grab_focus()
 
 func hide_keyboard():
 	keyboard_keys_container.hide()
@@ -229,18 +249,21 @@ func setup_play_again_button():
 	pass
 
 func show_win():
+	is_player_win = true;
+	
 	print("YOU WIN")
+	hide_keyboard();
 	setup_play_again_button();
 	pass
 
 func show_lose():
 	print("YOU LOSE")
+	hide_keyboard();
 	setup_play_again_button();
 	pass
 
 func check_win_lose_conditions():
 	if incorrect_guesses.size() >= allowed_strikes:
-		hide_keyboard();
 		show_lose();
 	else:
 		var all_spaces_revealed = true;
@@ -252,6 +275,5 @@ func check_win_lose_conditions():
 			pass
 
 		if all_spaces_revealed:
-			hide_keyboard();
 			show_win();
 	pass

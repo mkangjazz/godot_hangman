@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://q8oxk8j8oc3e"
-path="res://.godot/imported/00-stage.png-9d9928291bd5dfb9d0a845b79e8338f0.ctex"
+uid="uid://bv0drp4ycn7r6"
+path="res://.godot/imported/key-focused.png-1f0dedffb6917037328a15f2474cadaa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/00-stage.png"
-dest_files=["res://.godot/imported/00-stage.png-9d9928291bd5dfb9d0a845b79e8338f0.ctex"]
+source_file="res://assets/key-focused.png"
+dest_files=["res://.godot/imported/key-focused.png-1f0dedffb6917037328a15f2474cadaa.ctex"]
 
 [params]
 

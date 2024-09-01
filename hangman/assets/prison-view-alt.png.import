@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdj6meel65hvb"
-path="res://.godot/imported/key-focus.png-52697152300373ce0ee95520f6af6c40.ctex"
+uid="uid://dibmiwe7fy4b4"
+path="res://.godot/imported/prison-view-alt.png-7c645a9aa2f77ff30b228a6459d1210c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/key-focus.png"
-dest_files=["res://.godot/imported/key-focus.png-52697152300373ce0ee95520f6af6c40.ctex"]
+source_file="res://assets/prison-view-alt.png"
+dest_files=["res://.godot/imported/prison-view-alt.png-7c645a9aa2f77ff30b228a6459d1210c.ctex"]
 
 [params]
 
