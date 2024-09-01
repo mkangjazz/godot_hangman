@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://8gy8qllwj7bn"]
+[gd_scene load_steps=8 format=3 uid="uid://8gy8qllwj7bn"]
 
 [ext_resource type="Texture2D" uid="uid://5wh700i5alqy" path="res://assets/01-stage.PNG" id="1_bfh51"]
 [ext_resource type="Texture2D" uid="uid://bu2yqaq0uxksj" path="res://assets/02-stage.PNG" id="2_uyjvm"]
 [ext_resource type="Texture2D" uid="uid://dwm15k5qvkgrb" path="res://assets/03-stage.PNG" id="3_2fgpm"]
 [ext_resource type="Texture2D" uid="uid://bcbq38dcsx8qy" path="res://assets/04-stage.PNG" id="4_4sb0t"]
 [ext_resource type="Texture2D" uid="uid://c6x4aqi43q81c" path="res://assets/05-stage.PNG" id="5_wc0cj"]
+[ext_resource type="Texture2D" uid="uid://sthdn58wbk8r" path="res://assets/06-stage.png" id="6_5c7yu"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_00a1k"]
 animations = [{
@@ -47,8 +48,16 @@ animations = [{
 "loop": true,
 "name": &"5",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_5c7yu")
+}],
+"loop": true,
+"name": &"6",
+"speed": 5.0
 }]
 
 [node name="Hangman-stage" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_00a1k")
-animation = &"1"
+animation = &"6"
