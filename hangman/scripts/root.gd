@@ -2,35 +2,34 @@ extends Node2D
 
 signal restart_button_pressed;
 
-const intro_text:String = "Guess the word in my head, 'n I'll ask the judge to push yer date back. You might even finish yer autobiography, HEH";
-const win_text:String = "Well, ain't you clever! Looks like you live to write another day.";
+const quote_scene:Resource = preload("res://scenes/quote.tscn");
 const keyboard_key_scene:Resource = preload("res://scenes/keyboard_key.tscn");
 const blank_space_scene:Resource = preload("res://scenes/blank_space.tscn");
 const play_again_button: Resource = preload("res://scenes/play_again_button.tscn");
 const typewriter_font:Font = preload("res://assets/salmon-typewriter-regular.ttf")
 const allowed_strikes:int = 5;
 const word_bank:Array = [
-	#"apple",
-	#"pear",
+	"apple",
+	"pear",
 	"news",
-	#"award",
-	#"grimace",
-	#"stack",
+	"award",
+	"grimace",
+	"stack",
 	"whiskey",
-	#"employment",
+	"employment",
 	"taxes",
 ];
 const row_qwer:String = "qwertyuiop"; 
 const row_asdf:String = "asdfghjkl";
 const row_zxcv:String = "zxcvbnm";
 
-@onready var quote = %Quote
 @onready var hangman_stage = %"Hangman-stage"
 @onready var keyboard_keys_container = %Keyboard
 @onready var blank_spaces_container = %BlankSpaces
 @onready var incorrect_guesses_container = %IncorrectGuesses
 @onready var player_actions_container = %CenterContainer
-@onready var quote_panel = %Panel
+@onready var quote_panel = %Quotes
+@onready var quote_labels = %QuoteLabels
 
 var current_word:String = "";
 var incorrect_guesses:Array = [];
@@ -40,6 +39,7 @@ var allowed_string:String = row_qwer + row_asdf + row_zxcv;
 var allowed_chars:Array = [];
 var accept_keyboard_input:bool = false;
 var is_player_win:bool = false;
+var is_gallows_flashing = false;
 
 func _ready():
 	set_up_allowed_chars();
@@ -60,6 +60,8 @@ func _input(event):
 	pass
 	
 func _process(_delta):
+	sync_stage_anim_to_incorrect_guesses();
+	show_gallows_or_quote();
 	pass
 
 func remove_all_blank_spaces():
@@ -127,32 +129,45 @@ func set_up_player_keyboard():
 
 	pass
 
-func setQuoteText(newText:String):
-	quote.text = newText;
-	pass;
-
-func show_quote():
+func show_quote_panel():
 	quote_panel.show();
 	pass
 
-func hide_quote():
+func hide_quote_panel():
 	quote_panel.hide();
+	remove_all_quotes();
+	pass
+
+func remove_all_quotes():
+	for n in quote_labels.get_children():
+		n.queue_free()
 	pass
 
 func sync_stage_anim_to_incorrect_guesses():
+	if is_gallows_flashing:
+		return;
+	
 	var animation_frame:int = incorrect_guesses.size();
 	var clamped_frames = clamp(animation_frame, 1,6);
 
 	hangman_stage.play(str(clamped_frames));
-
-	if incorrect_guesses.size() > 0:
-		hangman_stage.show()
-		hide_quote();
-	else:
-		hangman_stage.hide();
-		setQuoteText(intro_text);
-		show_quote();
 	pass;
+
+func show_gallows_or_quote():
+	if incorrect_guesses.size() < 1:
+		hangman_stage.hide();
+		
+	if incorrect_guesses.size() > 0 and !is_player_win:
+		hangman_stage.show()
+	
+	if is_player_win:
+		hangman_stage.hide();
+	
+	if incorrect_guesses.size() < 1 or is_player_win:
+		show_quote_panel();
+	else:
+		hide_quote_panel();
+	pass
 
 func set_up_new_game():
 	current_word = "";
@@ -161,16 +176,21 @@ func set_up_new_game():
 	keyboard_keys.clear();
 	blank_spaces.clear();
 	accept_keyboard_input = false;
-	
+	var quote = quote_scene.instantiate();
+
 	remove_all_blank_spaces();
 	remove_all_keyboard_keys();
 	remove_all_incorrect_guesses();
+	remove_all_quotes();
 
 	set_up_current_word();
 	set_up_blank_spaces();
 	set_up_player_keyboard();
+
 	show_keyboard();
-	sync_stage_anim_to_incorrect_guesses();
+
+	quote_labels.add_child(quote);
+	quote.set_intro_dialogue();
 
 	print("current_word: ", current_word)
 
@@ -213,12 +233,15 @@ func handle_player_input_submission(key:String):
 		blank_spaces[index].showAnswer();
 		pass
 
-	sync_stage_anim_to_incorrect_guesses()
 	check_win_lose_conditions();
 
 	pass
-	
+
 func flash_gallows():
+	if is_gallows_flashing:
+		return;
+	
+	is_gallows_flashing = true;
 	const wait_time = 0.125;
 
 	for i in [0, 1, 2]:
@@ -226,6 +249,8 @@ func flash_gallows():
 		await get_tree().create_timer(wait_time).timeout
 		hangman_stage.play("5");
 		await get_tree().create_timer(wait_time).timeout
+	
+	is_gallows_flashing = false;
 	pass;
 
 func show_keyboard():
@@ -251,9 +276,13 @@ func setup_play_again_button():
 
 func show_win():
 	is_player_win = true;
-	hangman_stage.hide()
-	setQuoteText(win_text);
-	show_quote();
+
+	remove_all_quotes();
+	var quote = quote_scene.instantiate();
+
+	quote_labels.add_child(quote);
+	quote.set_win_dialogue();
+
 	print("YOU WIN")
 	hide_keyboard();
 	setup_play_again_button();

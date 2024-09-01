@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://p533lhgg7n4"]
+
+[ext_resource type="FontFile" uid="uid://byiisreyleu7q" path="res://assets/salmon-typewriter-regular.ttf" id="1_cekre"]
+[ext_resource type="Script" path="res://scripts/quote.gd" id="2_ad05c"]
+
+[node name="Quote" type="Label"]
+custom_minimum_size = Vector2(100, 100)
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/line_spacing = 10
+theme_override_fonts/font = ExtResource("1_cekre")
+theme_override_font_sizes/font_size = 16
+text = "?"
+autowrap_mode = 2
+uppercase = true
+script = ExtResource("2_ad05c")
