@@ -30,6 +30,7 @@ anchor_bottom = 0.367
 layout_mode = 2
 
 [node name="Logo" type="TextureRect" parent="CanvasLayer/MarginContainer2/CenterContainer"]
+texture_filter = 1
 layout_mode = 2
 texture = ExtResource("2_4dj1q")
 

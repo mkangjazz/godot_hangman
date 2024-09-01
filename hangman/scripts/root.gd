@@ -10,14 +10,14 @@ const play_again_button: Resource = preload("res://scenes/play_again_button.tscn
 const typewriter_font:Font = preload("res://assets/salmon-typewriter-regular.ttf")
 const allowed_strikes:int = 5;
 const word_bank:Array = [
-	"apple",
-	"pear",
+	#"apple",
+	#"pear",
 	"news",
-	"award",
-	"grimace",
-	"stack",
+	#"award",
+	#"grimace",
+	#"stack",
 	"whiskey",
-	"employment",
+	#"employment",
 	"taxes",
 ];
 const row_qwer:String = "qwertyuiop"; 
